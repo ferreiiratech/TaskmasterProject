@@ -1,6 +1,23 @@
 const router = require("express").Router();
-const Controller = require("../controller/controller")
+const multer = require("multer");
+const SaveProfileImg = require("../middlewares/SaveProfileImg");
+const Controller = require("../controller/controller");
 
-router.get("/", Controller.rootControll)
+const Upload = multer({ storage: SaveProfileImg.storage });
 
-module.exports = router
+router.get("/", Controller.RootControll);
+
+// rota de registro
+router.post(
+  "/auth/register",
+  Upload.single("image-input"),
+  Controller.RegisterUser
+);
+
+// rota de login
+
+// rota de pegar todas as tasks
+
+// rota de criar nova task
+
+module.exports = router;
