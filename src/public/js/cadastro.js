@@ -5,6 +5,10 @@ const divHomeCadastro = document.querySelector(".div-home-cadastro");
 const formCadastro = document.querySelector(".form-cadastro");
 const btnCancelar = document.querySelector(".btn-cancelar");
 
+// mensage alert
+const closeMessageBtn = document.querySelector("#close-messageAlert");
+const message = document.querySelector(".messageAlert");
+
 // image profile
 const img = document.querySelector(".img-t");
 const inputImg = document.getElementById("image-input");
@@ -115,7 +119,16 @@ const uploadImageProfile = () => {
   reader.readAsDataURL(file);
 };
 
+// close mensage alert
+const closeMessage = () => {
+  message.style.display = "none";
+};
+
+setTimeout(closeMessage, 3000);
+
+
 // eventos
 btnRegister.addEventListener("click", openRegister);
 btnCancelar.addEventListener("click", openHome);
 inputImg.addEventListener("change", uploadImageProfile);
+closeMessageBtn.addEventListener("click", closeMessage);

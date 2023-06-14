@@ -15,11 +15,17 @@
     <title>TaskMaster</title>
 </head>
 <body>
+    <% if(message) { %>
+        <section class="messageAlert message-<%= type %>">
+            <p><%= message %></p>
+            <span id="close-messageAlert"><i class="bi bi-x-circle"></i></span>
+        </section>
+    <% } %>
     <main>
         <div class="div-login">
             <h1 id="firt-h1">Entre na sua</h1>
             <h1 id="second-h1">TaskMaster</h1>
-            <form action="/user" method="post" enctype="application/x-www-form-urlencoded" class="form-login">
+            <form action="/auth/user" method="post" enctype="application/x-www-form-urlencoded" class="form-login">
                 <div class="area-email">
                     <input type="email" name="input-email" id="input-email" required>
                     <label for="input-email">E-mail</label>

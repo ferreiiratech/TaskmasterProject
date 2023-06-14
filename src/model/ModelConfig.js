@@ -24,7 +24,7 @@ const AuthRegisterUser = async (req, res) => {
     return { msg: "Preencha todos os campos", status: 422 };
   }
 
-  const img_profile = req.file.path;
+  const img_profile = req.file ? req.file.path : null;
   //const img_profile = req.file.path.replace(/\\/g, "\\\\");
 
   try {
@@ -36,9 +36,16 @@ const AuthRegisterUser = async (req, res) => {
 
     password = await bcrypt.hash(password, 8);
 
-    const register = await User.create({ name, email, password, img_profile });
+    const RegisteredUser = await User.create({
+      name,
+      email,
+      password,
+      img_profile,
+    });
 
-    return { msg: "Cadastro realizado com sucesso", status: 201 };
+    const IdUser = RegisteredUser._id;
+
+    return { msg: "Cadastro realizado com sucesso", status: 201, IdUser };
   } catch (e) {
     console.log(e.message);
 
@@ -49,6 +56,33 @@ const AuthRegisterUser = async (req, res) => {
   }
 };
 
+const ValidadePassword = async (passwordUser, passwordCript) => {
+  try {
+    const passwordConfere = await bcrypt.compare(passwordCript, passwordUser);
+
+    return passwordConfere;
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
+const AuthLoginDb = async (req, res) => {
+  let { "input-email": email, "input-pass": password } = req.body;
+
+  const UserExists = await ValidateDataUser(email);
+
+  const PasswordConfere = await ValidadePassword(UserExists.password, password);
+
+  if (!UserExists || !PasswordConfere) {
+    return { msg: "Usuário ou senha inválidos", status: 401 };
+  }
+
+  const IdUser = UserExists._id;
+
+  return { IdUser };
+};
+
 module.exports = {
   AuthRegisterUser,
+  AuthLoginDb,
 };

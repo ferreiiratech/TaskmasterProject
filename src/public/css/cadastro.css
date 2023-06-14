@@ -108,3 +108,21 @@
     display: flex;
     align-items: center;
 }
+
+/* mensage alert */
+.messageAlert{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: .5rem;
+    width: 65%;
+    position: absolute;
+    top: .5rem;
+    right: 3rem;
+    z-index: 9999;
+}
+
+.message-danger{
+    color: #8a0000;
+    background-color: #FAC608;
+}

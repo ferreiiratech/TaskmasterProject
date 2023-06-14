@@ -5,8 +5,10 @@ const storage = multer.diskStorage({
     callback(null, "src/users/img");
   },
   filename: (req, file, callback) => {
-    const time = new Date().getTime();
-    callback(null, `${time}_${file.originalname}`);
+    if(file){
+      const time = new Date().getTime();
+      callback(null, `${time}_${file.originalname}`);
+    }
   },
 });
 

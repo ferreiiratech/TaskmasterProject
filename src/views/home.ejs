@@ -13,20 +13,10 @@
     </style>
 </head>
 <body>
-    <form action="/taskcreate" method="post">
-        <input type="text" name="task" id="task" placeholder="Qual a sua próxima tarefa">
-        <input type="submit" value="Adicionar">
-    </form>
-
-    <ul>
-        <% tasklist.forEach((element) => { %>
-            <li>
-                <%= element.dataValues.description %>
-            </li>
-        <% }) %>
-    </ul>
-        
-    <img src=<%= img_profile %> alt="Profile Image">
+    <h1>Suas tarefas</h1>
+    <% if(message){ %>
+        <%= message %>
+    <% } %>
 
 </body>
 </html>
