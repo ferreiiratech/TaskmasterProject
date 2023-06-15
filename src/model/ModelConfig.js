@@ -71,9 +71,13 @@ const AuthLoginDb = async (req, res) => {
 
   const UserExists = await ValidateDataUser(email);
 
+  if (!UserExists) {
+    return { msg: "Usuário ou senha inválidos", status: 401 };
+  }
+
   const PasswordConfere = await ValidadePassword(UserExists.password, password);
 
-  if (!UserExists || !PasswordConfere) {
+  if (!PasswordConfere) {
     return { msg: "Usuário ou senha inválidos", status: 401 };
   }
 

@@ -1,5 +1,6 @@
 const database = require("../database/db");
 const Model = require("../model/ModelConfig");
+const { User } = require("../model/ModelSchema");
 
 let message = "";
 let type = "";
@@ -18,6 +19,7 @@ const RegisterUser = async (req, res) => {
   if (status === 201) {
     type = "sucess";
 
+    req.session.login = IdUser;
     return res.redirect(`/user/${IdUser}`);
   }
 
@@ -33,7 +35,19 @@ const AuthLogin = async (req, res) => {
   if (IdUser) {
     message = "";
     type = "sucess";
+
+    // cria a session do usuário
+    req.session.login = IdUser;
+
     return res.redirect(`/user/${IdUser}`);
+  }
+
+  return res.redirect("/");
+};
+
+const AuthLoginGet = async (req, res, next) => {
+  if (req.session.login === req.params.id) {
+    return next();
   }
 
   return res.redirect("/");
@@ -43,4 +57,5 @@ module.exports = {
   RootControll,
   RegisterUser,
   AuthLogin,
+  AuthLoginGet,
 };
