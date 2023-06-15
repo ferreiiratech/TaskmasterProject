@@ -1,61 +1,110 @@
-const database = require("../database/db");
 const Model = require("../model/ModelConfig");
-const { User } = require("../model/ModelSchema");
 
 let message = "";
-let type = "";
+let messageType = "";
 
-const RootControll = (req, res) => {
+const rootControll = (req, res) => {
   setTimeout(() => {
     message = "";
   }, 1000);
 
-  return res.render("index", { message, type });
+  return res.render("index", { message, messageType });
 };
 
-const RegisterUser = async (req, res) => {
-  const { msg, status, IdUser } = await Model.AuthRegisterUser(req);
+const registerUser = async (req, res) => {
+  try {
+    const { msg, status, idUser } = await Model.registerUserInDatabase(req);
 
-  if (status === 201) {
-    type = "sucess";
+    if (status === 201) {
+      messageType = "sucess";
 
-    req.session.login = IdUser;
-    return res.redirect(`/user/${IdUser}`);
+      req.session.login = idUser;
+      return res.redirect(`/user/${idUser}`);
+    }
+
+    message = msg;
+    // messageType = "danger";
+    messageType = "typeCadastro";
+    return res.redirect("/");
+  } catch (error) {
+    console.log(error);
+    message = "Erro ao registrar o usuário.";
+    messageType = "typeCadastro";
+    return res.redirect("/");
   }
-
-  message = msg;
-  type = "danger";
-  return res.redirect("/");
 };
 
-const AuthLogin = async (req, res) => {
-  const { msg, IdUser } = await Model.AuthLoginDb(req);
-  message = msg;
-  type = "danger";
-  if (IdUser) {
-    message = "";
-    type = "sucess";
+const authLogin = async (req, res) => {
+  try {
+    const { msg, idUser } = await Model.authLoginUserInDatabase(req);
 
-    // cria a session do usuário
-    req.session.login = IdUser;
+    if (idUser) {
+      message = "";
+      messageType = "typeLogin";
 
-    return res.redirect(`/user/${IdUser}`);
+      // cria a session do usuário
+      req.session.login = idUser;
+
+      return res.redirect(`/user/${idUser}`);
+    }
+
+    message = msg;
+    messageType = "typeLogin";
+
+    return res.redirect("/");
+  } catch (error) {
+    console.log(error);
+    message = "Erro ao fazer login.";
+    messageType = "typeLogin";
+    return res.redirect("/");
   }
-
-  return res.redirect("/");
 };
 
-const AuthLoginGet = async (req, res, next) => {
-  if (req.session.login === req.params.id) {
-    return next();
+const authLoginGet = async (req, res, next) => {
+  try {
+    if (req.session.login === req.params.id) {
+      return next();
+    }
+
+    return res.redirect("/");
+  } catch (error) {
+    console.log(error);
+    return res.redirect("/");
   }
-
-  return res.redirect("/");
 };
+
+const getAllTaskUser = async (req, res) => {
+  const tasklist = await Model.getAllUserTasksFromDatabase(req.params.id);
+  console.log("Task: ",tasklist);
+
+
+
+  // if(tasklist.length > 0){
+  //   return res.send("SIM");
+  // } else{
+  //   return res.send("NÂO");
+  // }
+
+  return res.render("home", {tasklist, img_profile: null})
+};
+
+const createTask = async (req, res) => {
+  const userId = req.session.login
+  const {title, description} = req.body;
+
+  const respost = await Model.registerTaskInDatabase(userId, title, description)
+
+  console.log("AQui: ",respost)
+
+  return res.redirect(`/user/${userId}`)
+
+}
 
 module.exports = {
-  RootControll,
-  RegisterUser,
-  AuthLogin,
-  AuthLoginGet,
+  rootControll,
+  registerUser,
+  authLogin,
+  authLoginGet,
+  getAllTaskUser,
+  createTask,
 };

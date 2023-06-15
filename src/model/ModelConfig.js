@@ -3,17 +3,38 @@ const database = require("../database/db");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
 
-const ValidateDataUser = async (email) => {
+const checkUserExistenceByEmail = async (email) => {
   try {
-    const UserExists = await User.findOne({ email });
-    return UserExists;
-  } catch (e) {
-    console.log(e.message);
+    const userExists = await User.findOne({ email });
+    return userExists;
+  } catch (error) {
+    throw new Error("Erro ao buscar usuário no banco de dados");
+  }
+};
+
+const validateLoginPassword = async (email, enteredPassword) => {
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      // Usuário não encontrado
+      return null;
+    }
+
+    const passwordConfere = await bcrypt.compare(
+      enteredPassword,
+      user.password
+    );
+
+    return passwordConfere;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Erro ao validar a senha");
   }
 };
 
 // Registra o usuário
-const AuthRegisterUser = async (req, res) => {
+const registerUserInDatabase = async (req, res) => {
   let {
     "input-name-cad": name,
     "input-email-cad": email,
@@ -25,29 +46,28 @@ const AuthRegisterUser = async (req, res) => {
   }
 
   const img_profile = req.file ? req.file.path : null;
-  //const img_profile = req.file.path.replace(/\\/g, "\\\\");
 
   try {
-    const UserExists = await ValidateDataUser(email);
+    const userExists = await checkUserExistenceByEmail(email);
 
-    if (UserExists) {
+    if (userExists) {
       return { msg: "Email está em uso. Escolha outro", status: 409 };
     }
 
     password = await bcrypt.hash(password, 8);
 
-    const RegisteredUser = await User.create({
+    const registeredUser = await User.create({
       name,
       email,
       password,
       img_profile,
     });
 
-    const IdUser = RegisteredUser._id;
+    const idUser = registeredUser._id;
 
-    return { msg: "Cadastro realizado com sucesso", status: 201, IdUser };
-  } catch (e) {
-    console.log(e.message);
+    return { msg: "Cadastro realizado com sucesso", status: 201, idUser };
+  } catch (error) {
+    console.log(error.message);
 
     return {
       msg: "Ocorreu um erro ao realizar o cadastro, tente novamente",
@@ -56,37 +76,47 @@ const AuthRegisterUser = async (req, res) => {
   }
 };
 
-const ValidadePassword = async (passwordUser, passwordCript) => {
-  try {
-    const passwordConfere = await bcrypt.compare(passwordCript, passwordUser);
-
-    return passwordConfere;
-  } catch (e) {
-    console.log(e.message);
-  }
-};
-
-const AuthLoginDb = async (req, res) => {
+const authLoginUserInDatabase = async (req, res) => {
   let { "input-email": email, "input-pass": password } = req.body;
 
-  const UserExists = await ValidateDataUser(email);
+  try {
+    const userExists = await checkUserExistenceByEmail(email);
 
-  if (!UserExists) {
-    return { msg: "Usuário ou senha inválidos", status: 401 };
+    if (!userExists) {
+      return { msg: "Usuário ou senha inválidos", status: 401 };
+    }
+
+    const passwordConfere = await validateLoginPassword(email, password);
+
+    if (!passwordConfere) {
+      return { msg: "Usuário ou senha inválidos", status: 401 };
+    }
+
+    const idUser = userExists._id;
+
+    return { idUser };
+  } catch (error) {
+    console.log(error);
+
+    return { msg: "Erro ao realizar o login, tente novamente", status: 500 };
   }
-
-  const PasswordConfere = await ValidadePassword(UserExists.password, password);
-
-  if (!PasswordConfere) {
-    return { msg: "Usuário ou senha inválidos", status: 401 };
-  }
-
-  const IdUser = UserExists._id;
-
-  return { IdUser };
 };
 
+const getAllUserTasksFromDatabase = async (userId) => {
+  const tasklist = await Task.find({userId})
+  return tasklist
+
+}
+
+const registerTaskInDatabase = async (userId, title, description) => {
+  const result = await Task.create({userId, title, description})
+  console.log(result)
+  return result
+}
+
 module.exports = {
-  AuthRegisterUser,
-  AuthLoginDb,
+  registerUserInDatabase,
+  authLoginUserInDatabase,
+  getAllUserTasksFromDatabase,
+  registerTaskInDatabase,
 };

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,10 +13,23 @@
     </style>
 </head>
 <body>
-    <h1>Suas tarefas</h1>
-    <% if(message){ %>
-        <%= message %>
-    <% } %>
+    <form action="/user/:id/createTask" method="post">
+        <input type="text" name="title" id="task" placeholder="Qual o título da sua task?">
+        <input type="text" name="description" id="description" placeholder="Qual a descrição?">
+        <input type="submit" value="Adicionar">
+    </form>
+
+    <ul>
+        <% tasklist.forEach((element) => { %>
+            <li>
+                <%= element.title %>
+            </li>
+        <% }) %>
+    </ul>
+        
+    <% if (img_profile) { %>
+        <img src=<%= img_profile %> alt="Profile Image">
+    <% } %>    
 
 </body>
 </html>
