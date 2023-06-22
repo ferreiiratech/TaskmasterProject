@@ -1,0 +1,263 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+
+* {
+  text-decoration: none;
+}
+
+body {
+  background-color: #8b6be7;
+}
+
+form {
+  display: flex;
+  width: 60rem;
+  height: 4rem;
+  border-radius: 2rem;
+  background-color: #fff;
+}
+
+@keyframes openForm {
+  0% {
+    height: 4rem;
+  }
+  20% {
+    height: 6rem;
+  }
+  40% {
+    height: 8rem;
+  }
+  60% {
+    height: 10rem;
+  }
+  80% {
+    height: 12rem;
+  }
+  100% {
+    height: 13rem;
+  }
+}
+
+@keyframes closeForm {
+  0% {
+    height: 13rem;
+  }
+  20% {
+    height: 12rem;
+  }
+  40% {
+    height: 10rem;
+  }
+  60% {
+    height: 8rem;
+  }
+  80% {
+    height: 6rem;
+  }
+  100% {
+    height: 4rem;
+  }
+}
+
+form > div:not(:first-child) {
+  display: none;
+}
+
+.divCircle {
+  display: flex;
+  gap: 1rem;
+  align-self: center;
+  font-size: 1.25rem;
+}
+
+.divCircle i:nth-child(1) {
+  color: #d062dd;
+}
+
+.divCircle i:nth-child(2) {
+  color: #3fd4f4;
+}
+
+.divCircle i:nth-child(3) {
+  color: #fac608;
+}
+
+.divFormMain {
+  display: flex;
+  gap: 1rem;
+  align-self: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.divFormMain input[name="title"] {
+  width: 75%;
+  border: none;
+  outline: none;
+
+  color: #4a4a4acc;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.8rem;
+  line-height: 2.25rem;
+}
+
+.divFormMain input[name="title"]::placeholder {
+  color: #dfdfdf;
+}
+
+.divCalendar {
+  color: #8b6be7;
+  display: flex;
+  align-self: center;
+  gap: 1rem;
+  font-size: 1.8rem;
+}
+
+.labelTask {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 25px;
+  color: #dfdfdf;
+
+  display: flex;
+  position: absolute;
+  top: 5.4rem;
+  left: 2rem;
+}
+
+.labelTask input {
+  visibility: hidden;
+}
+
+.labelTask label {
+  cursor: pointer;
+}
+
+.labelTask > div {
+  margin-bottom: 1rem;
+}
+
+/* ======= */
+
+.divFormMain.expanded {
+  align-self: flex-start;
+  margin-top: 0.813rem;
+  margin-left: -5rem;
+}
+
+.divCircle.expanded {
+  flex-direction: column;
+  position: absolute;
+  top: 5.5rem;
+  left: 2rem;
+}
+
+.labelTask.expanded {
+  display: block;
+}
+
+.divCalendar.expanded {
+  display: none;
+}
+
+.divDateTimeSubmit.expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin: 1rem 2rem 0 0;
+}
+
+.divDateTimeSubmit.expanded div {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.divDateTimeSubmit.expanded
+  :is(input[name="date"], input[name="time"], input[name="submit"]) {
+  color: #fff;
+  padding: 0.5rem;
+  border-radius: 2rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: #8b6be7;
+  font-size: 1rem;
+}
+
+:is(input[name="date"], input[name="time"])::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Inverte a cor do ícone */
+  color: #fff; /* Define a cor desejada para o ícone */
+  background: url("../img/down-icon.svg") center no-repeat;
+  background-size: contain;
+  opacity: 1;
+  cursor: pointer;
+}
+
+/* output */
+
+.outputDiv {
+margin-bottom: 2rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  width: 53rem;
+  height: 4rem;
+  border-radius: 1.875rem;
+  background-color: #fff;
+}
+
+.outputCircle i {
+  font-size: 1.25rem;
+}
+
+.high {
+  color: #d062dd;
+}
+
+.medium {
+  color: #3fd4f4;
+}
+
+.low {
+  color: #fac608;
+}
+
+.outputTaskTime {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+
+  color: #4a4a4acc;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+}
+
+.outputTask {
+  color: #4a4a4acc;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 2rem;
+}
+
+.checkboxTrash {
+  display: flex;
+  gap: 1rem;
+}
+
+.checkboxTrash a {
+  color: #7f5de4;
+}
+
+.checkbox i {
+  font-size: 1.8rem;
+}
+
+.bi-trash {
+  font-size: 1.8rem;
+}

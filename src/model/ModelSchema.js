@@ -34,14 +34,20 @@ const taskSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
-  description: {
+  priority: {
     type: String,
+    required: true
   },
-  completed: { 
+  check: { 
     type: Boolean, 
     default: false 
   },
+  dateTime: {
+    type: Date,
+    default: Date.now, 
+  }
 });
+
 
 const Task = mongoose.model("Task", taskSchema);
 

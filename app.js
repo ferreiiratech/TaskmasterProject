@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: secretSession,
-    cookie: { path: "/user", _expires: 1000000 },
+    cookie: { path: "/user", _expires: new Date(Date.now() + 86400000) },
   })
 );
 

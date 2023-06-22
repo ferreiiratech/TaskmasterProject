@@ -75,30 +75,53 @@ const authLoginGet = async (req, res, next) => {
 
 const getAllTaskUser = async (req, res) => {
   const tasklist = await Model.getAllUserTasksFromDatabase(req.params.id);
-  console.log("Task: ",tasklist);
+  // console.log("Task: ",tasklist);
 
-
-
-  // if(tasklist.length > 0){
-  //   return res.send("SIM");
-  // } else{
-  //   return res.send("NÂO");
-  // }
-
-  return res.render("home", {tasklist, img_profile: null})
+  return res.render("home", { tasklist, img_profile: null });
 };
 
 const createTask = async (req, res) => {
-  const userId = req.session.login
-  const {title, description} = req.body;
+  const userId = req.session.login;
+  const { title, priority, date, time } = req.body;
 
-  const respost = await Model.registerTaskInDatabase(userId, title, description)
+  const dateTime = `${date}T${time}`;
 
-  console.log("AQui: ",respost)
+  const respost = await Model.registerTaskInDatabase(
+    userId,
+    title,
+    priority,
+    dateTime
+  );
 
-  return res.redirect(`/user/${userId}`)
+  // console.log("AQui: ",respost)
 
-}
+  return res.redirect(`/user/${userId}`);
+};
+
+const taskCheck = async (req, res) => {
+  const userId = req.session.login;
+  try {
+    const taskId = req.params.taskId;
+    await Model.updateCheckboxTask(taskId);
+  } catch (error) {
+    console.log(error);
+  }
+  return res.redirect(`/user/${userId}`);
+};
+
+const taskDelete = async (req, res) => {
+  const userId = req.session.login;
+
+  try {
+    const taskId = req.params.taskId;
+    await Model.deleteTaskDatabase(taskId);
+
+  } catch (error) {
+    console.log(error);
+  }
+
+  return res.redirect(`/user/${userId}`);
+};
 
 module.exports = {
   rootControll,
@@ -107,4 +130,6 @@ module.exports = {
   authLoginGet,
   getAllTaskUser,
   createTask,
+  taskCheck,
+  taskDelete,
 };

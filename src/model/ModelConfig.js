@@ -103,15 +103,32 @@ const authLoginUserInDatabase = async (req, res) => {
 };
 
 const getAllUserTasksFromDatabase = async (userId) => {
-  const tasklist = await Task.find({userId})
-  return tasklist
+  const tasklist = await Task.find({ userId });
+  return tasklist;
+};
 
-}
+const registerTaskInDatabase = async (userId, title, priority, dateTime) => {
+  const result = await Task.create({ userId, title, priority, dateTime });
+  console.log(result);
+  return result;
+};
 
-const registerTaskInDatabase = async (userId, title, description) => {
-  const result = await Task.create({userId, title, description})
-  console.log(result)
-  return result
+const updateCheckboxTask = async (taskId) => {
+  try {
+    const task = await Task.findOne({ _id: taskId });
+    task.check = !task.check;
+    await task.save();
+  } catch (error) {
+    console.error("Erro ao atualizar a tarefa:", error);
+  }
+};
+
+const deleteTaskDatabase = async (taskId) => {
+  try {
+    await Task.deleteOne({_id: taskId});
+  } catch (error) {
+    console.error("Erro ao deletar", error);
+  }
 }
 
 module.exports = {
@@ -119,4 +136,6 @@ module.exports = {
   authLoginUserInDatabase,
   getAllUserTasksFromDatabase,
   registerTaskInDatabase,
+  updateCheckboxTask,
+  deleteTaskDatabase,
 };
