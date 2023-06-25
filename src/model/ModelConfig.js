@@ -104,7 +104,9 @@ const authLoginUserInDatabase = async (req, res) => {
 
 const getAllUserTasksFromDatabase = async (userId) => {
   const tasklist = await Task.find({ userId });
-  return tasklist;
+  const user = await User.findOne({ _id: userId });
+
+  return {tasklist, user};
 };
 
 const registerTaskInDatabase = async (userId, title, priority, dateTime) => {

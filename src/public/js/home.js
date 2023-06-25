@@ -69,17 +69,18 @@ labels.forEach((label) => {
   label.addEventListener("click", changeColorSelectedLabel);
 });
 
-// config hora atual
+// config hora atual yyyy-mm-dd
 const currentDate = new Date();
-
-// Obtem a data no formato "YYYY-MM-DD"
-const date = currentDate.toISOString().split("T")[0];
+const year = currentDate.getFullYear();
+const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+const day = String(currentDate.getDate()).padStart(2, '0');
+const formattedDate = `${year}-${month}-${day}`;
 
 // Obtem a hora no formato "HH:mm"
-const time = currentDate.toLocaleTimeString("pt-BR", {
+const formattedTime = currentDate.toLocaleTimeString("pt-BR", {
   hour: "2-digit",
   minute: "2-digit",
 });
 
-dateInput.value = date;
-timeInput.value = time;
+dateInput.value = formattedDate;
+timeInput.value = formattedTime;

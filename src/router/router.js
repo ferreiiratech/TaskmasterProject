@@ -14,7 +14,11 @@ router.post(
   Controller.registerUser,
 );
 
+// rota de login
 router.get("/user/:id", Controller.authLoginGet, Controller.getAllTaskUser);
+
+// rota de logout
+router.get("/user/:id/logout", Controller.logout)
 
 // rota de autentificação do login de usuário
 router.post("/user/auth", Controller.authLogin);

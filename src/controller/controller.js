@@ -74,10 +74,11 @@ const authLoginGet = async (req, res, next) => {
 };
 
 const getAllTaskUser = async (req, res) => {
-  const tasklist = await Model.getAllUserTasksFromDatabase(req.params.id);
-  // console.log("Task: ",tasklist);
+  const { tasklist, user } = await Model.getAllUserTasksFromDatabase(
+    req.params.id
+  );
 
-  return res.render("home", { tasklist, img_profile: null });
+  return res.render("home", { tasklist, user });
 };
 
 const createTask = async (req, res) => {
@@ -115,12 +116,17 @@ const taskDelete = async (req, res) => {
   try {
     const taskId = req.params.taskId;
     await Model.deleteTaskDatabase(taskId);
-
   } catch (error) {
     console.log(error);
   }
 
   return res.redirect(`/user/${userId}`);
+};
+
+const logout = (req, res) => {
+  req.session.destroy();
+
+  return res.redirect("/");
 };
 
 module.exports = {
@@ -132,4 +138,5 @@ module.exports = {
   createTask,
   taskCheck,
   taskDelete,
+  logout,
 };
