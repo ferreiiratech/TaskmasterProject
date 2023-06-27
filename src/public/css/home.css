@@ -1,4 +1,4 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 * {
   margin: 0;
@@ -8,8 +8,16 @@
   text-decoration: none;
 }
 
+:root {
+  --colorLight1: #fff;
+  --colorLight2: #8b6be7;
+  
+  --colorDark1: #000;
+  --colorDark2: #604aa3;
+}
+
 body {
-  background-color: #8b6be7;
+  background-color: var(--colorLight2);
 }
 
 main {
@@ -21,7 +29,7 @@ main {
 /* nav */
 .containerMenu {
   border-radius: 0 35px 35px 0;
-  background-color: #fff;
+  background-color: var(--colorLight1);
 }
 
 .headerImgProfile img {
@@ -30,13 +38,13 @@ main {
   border-radius: 50%;
 }
 
-.containerMenu header{
+.containerMenu header {
   display: flex;
   flex-direction: row;
   gap: 1rem;
 }
 
-.header{
+.header {
   display: block;
   margin: 5rem auto 0;
   width: fit-content;
@@ -46,32 +54,144 @@ main {
 .headerTitle h1 {
   color: #4a4a4a;
   font-size: 2.2rem;
+  font-family: Inter;
+  font-weight: normal;
 }
 
 .headerTitle p {
   color: #8b6be7;
   font-size: 1.2rem;
-  margin-left: .4rem;
+  margin-left: 0.4rem;
   margin-bottom: 1rem;
 }
 
 .headerTitle a {
-  color: #8b6be7;
+  display: flex;
+  align-items: center;
+  color: #8a6be7ad;
   font-size: 1.2rem;
+  width: fit-content;
 }
 
 .headerTitle a > i {
+  font-size: 1.5rem;
   margin-right: 0.3rem;
 }
 
-.headerLine{
+.headerTitle a:hover i {
+  animation: animationIconLogout 0.2s;
+}
+
+@keyframes animationIconLogout {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.headerLine {
   width: 18rem;
   margin: 0 auto;
   margin-top: 2rem;
   border-bottom: 2px solid #8b6be7;
 }
 
+.nav {
+  display: block;
+  margin: 5rem auto 0;
+  width: fit-content;
+  height: fit-content;
+}
+
+.navTaskToday h2 {
+  color: #4a4a4a;
+  font-size: 2.25rem;
+  font-family: Inter;
+  cursor: pointer;
+  font-weight: normal;
+}
+
+.navTaskToday h2 i {
+  margin-right: 1.5rem;
+}
+
+.bi-calendar2-day,
+.bi-clock-history,
+.bi-gear-fill {
+  color: #8b6be780;
+}
+
+.navCircle {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 1rem;
+  margin-left: 4.3rem;
+}
+
+.navCircle div {
+  display: flex;
+  gap: 1rem;
+  color: #4a4a4a;
+  font-size: 1.3rem;
+  font-family: Inter;
+}
+
+.navCircle div:nth-child(1) i {
+  color: #d062dd;
+}
+
+.navCircle div:nth-child(2) i {
+  color: #3fd4f4;
+}
+
+.navCircle div:nth-child(3) i {
+  color: #fac608;
+}
+
+.scheduled h2 {
+  color: #4a4a4a;
+  font-weight: normal;
+  font-size: 2.25rem;
+  font-family: Inter;
+  margin-top: 4rem;
+  margin-bottom: 2.5rem;
+  cursor: pointer;
+}
+
+.scheduled h2 i {
+  margin-right: 1.5rem;
+}
+
+.setting h2 {
+  color: #4a4a4a;
+  font-weight: normal;
+  font-size: 2.25rem;
+  font-family: Inter;
+  cursor: pointer;
+}
+
+.setting h2 i {
+  margin-right: 1.5rem;
+}
+
 /* task */
+
+.titleTask h1 {
+  color: #fff;
+  font-weight: normal;
+  font-size: 2.8rem;
+  font-family: Inter;
+}
+
+.titleTask p {
+  color: #fff;
+  font-size: 2.8rem;
+  font-family: Inter;
+  font-weight: 900;
+}
 
 form {
   display: flex;
@@ -187,8 +307,8 @@ form > div:not(:first-child) {
 
   display: flex;
   position: absolute;
-  top: 5.4rem;
-  left: 38rem;
+  top: 21rem;
+  left: 44rem;
 }
 
 .labelTask input {
@@ -214,8 +334,8 @@ form > div:not(:first-child) {
 .divCircle.expanded {
   flex-direction: column;
   position: absolute;
-  top: 5.5rem;
-  left: 37.5rem;
+  top: 21rem;
+  left: 43.5rem;
 }
 
 .labelTask.expanded {
@@ -262,9 +382,40 @@ form > div:not(:first-child) {
 
 /* output */
 
-.containerTask {
+.containerTask,
+.containerScheduled {
   max-height: 100vh;
   overflow-y: auto;
+  margin-left: 6rem;
+  margin-top: 5rem;
+}
+
+.containerTask::-webkit-scrollbar {
+  display: none;
+}
+
+.containerTask::-webkit-scrollbar-button {
+  display: none;
+}
+
+.containerTask::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+.formTask {
+  margin: 5rem 0;
+}
+
+.openAnimationForm {
+  animation: openForm 200ms ease-in-out forwards;
+}
+
+.closeAnimationForm {
+  animation: closeForm 200ms ease-in-out forwards;
+}
+
+.tasklist {
+  margin-left: 3rem;
 }
 
 .outputDiv {
@@ -330,4 +481,65 @@ form > div:not(:first-child) {
 
 .bi-trash {
   font-size: 1.8rem;
+}
+
+/* ============= containerScheduled ============*/
+
+.sectionOn {
+  color: #8b6be7;
+}
+
+.containerScheduled {
+  display: none;
+}
+
+.containerScheduled::-webkit-scrollbar {
+  display: none;
+}
+
+.containerScheduled::-webkit-scrollbar-button {
+  display: none;
+}
+
+.containerScheduled::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+.containerScheduled h1 {
+  color: #fff;
+  font-weight: normal;
+  font-size: 2.8rem;
+  font-family: Inter;
+}
+
+.containerScheduled .titleDateScheduled {
+  color: #fff;
+  font-size: 1.5rem;
+  font-family: Inter;
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: end;
+}
+
+.containerScheduled .tasklist {
+  margin-left: 0;
+}
+
+.containerScheduled .outputDiv{
+  margin-left: 4rem;
+  margin-bottom: 4rem;
+}
+
+.containerSettings {
+  display: none;
+}
+
+
+/* ============ containerSettings ====================== */
+.containerSettings{
+  width: 85%;
+  height: 85%;
+  margin: auto;
+  border-radius: 35px;
+  background-color: #fff;
 }

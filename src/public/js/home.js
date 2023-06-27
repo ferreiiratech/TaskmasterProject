@@ -11,17 +11,10 @@ const divDateSubmit = document.querySelector(".divDateTimeSubmit");
 const dateInput = document.querySelector("#date");
 const timeInput = document.querySelector("#time");
 
-const animationEndHandler = (event) => {
-  if (event.animationName === "openForm") {
-    setTimeout(expandForm, 100);
-  }
-};
-
 const animationForm = () => {
   formTask.style.animation = "openForm 200ms ease-in-out forwards";
+  setTimeout(expandForm, 100);
 };
-
-formTask.addEventListener("animationstart", animationEndHandler);
 
 const expandForm = () => {
   divFormMain.classList.add("expanded");
@@ -32,6 +25,7 @@ const expandForm = () => {
 };
 
 const retractForm = (event) => {
+  // event.target !== inputTask
   if (!formTask.contains(event.target)) {
     formTask.style.animation = "closeForm 200ms ease-in-out forwards";
 
@@ -72,8 +66,8 @@ labels.forEach((label) => {
 // config hora atual yyyy-mm-dd
 const currentDate = new Date();
 const year = currentDate.getFullYear();
-const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-const day = String(currentDate.getDate()).padStart(2, '0');
+const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+const day = String(currentDate.getDate()).padStart(2, "0");
 const formattedDate = `${year}-${month}-${day}`;
 
 // Obtem a hora no formato "HH:mm"
